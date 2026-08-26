@@ -1,4 +1,4 @@
-public import Hash_Primitives
+public import Hash
 public import Sector_Primitive
 
 extension Sector.Quadrant: Hash.`Protocol` {}

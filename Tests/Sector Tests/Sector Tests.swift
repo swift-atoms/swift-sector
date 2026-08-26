@@ -1,4 +1,4 @@
-import Sector_Primitives
+import Sector
 import Testing
 
 extension Sector.Quadrant {

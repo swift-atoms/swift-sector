@@ -1,4 +1,4 @@
-public import Comparison_Primitives
+public import Comparison
 public import Sector_Primitive
 
 extension Sector.Quadrant: Comparison.`Protocol` {}
