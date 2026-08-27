@@ -1,6 +1,6 @@
 extension Sector {
 
-    public enum Octant: Sendable, CaseIterable {
+    public enum Octant: Sendable {
 
         case ppp
 
@@ -74,7 +74,3 @@ extension Sector.Octant {
 
     @inlinable public func hash(into hasher: inout Hasher) { hasher.combine(_rank) }
 }
-
-#if !hasFeature(Embedded)
-    extension Sector.Octant: Codable {}
-#endif

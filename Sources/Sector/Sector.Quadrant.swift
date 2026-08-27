@@ -1,6 +1,6 @@
 extension Sector {
 
-    public enum Quadrant: Sendable, CaseIterable {
+    public enum Quadrant: Sendable {
 
         case I
 
@@ -58,7 +58,3 @@ extension Sector.Quadrant {
 
     @inlinable public func hash(into hasher: inout Hasher) { hasher.combine(_rank) }
 }
-
-#if !hasFeature(Embedded)
-    extension Sector.Quadrant: Codable {}
-#endif
