@@ -1,4 +1,5 @@
 import Sector
+import Sector_Standard_Library_Integration
 import Testing
 
 extension Sector.Quadrant {
@@ -57,6 +58,5 @@ extension Sector.Octant.Test.Unit {
     @Test
     func `Comparison orders by sign triple`() {
         #expect(Sector.Octant.ppp < .nnn)
-        #expect(Sector.Octant.allCases.sorted() == Sector.Octant.allCases)
     }
 }

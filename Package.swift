@@ -40,7 +40,10 @@ let package = Package(
         ),
         .testTarget(
             name: "Sector Tests",
-            dependencies: ["Sector"]
+            dependencies: [
+                "Sector",
+                "Sector Standard Library Integration",
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
