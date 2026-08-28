@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-sector-primitives",
+    name: "swift-sector",
     platforms: [
         .macOS(.v27),
         .iOS(.v27),
@@ -11,68 +11,47 @@ let package = Package(
         .visionOS(.v27),
     ],
     products: [
-        .library(name: "Sector Primitive", targets: ["Sector Primitive"]),
-        .library(name: "Sector Equation Primitives", targets: ["Sector Equation Primitives"]),
-        .library(name: "Sector Hash Primitives", targets: ["Sector Hash Primitives"]),
-        .library(name: "Sector Comparison Primitives", targets: ["Sector Comparison Primitives"]),
-        .library(name: "Sector Primitives", targets: ["Sector Primitives"]),
-        .library(
-            name: "Sector Primitives Test Support",
-            targets: ["Sector Primitives Test Support"]
-        ),
+        .library(name: "Sector", targets: ["Sector"]),
+        .library(name: "Sector Hash", targets: ["Sector Hash"]),
+        .library(name: "Sector Comparison", targets: ["Sector Comparison"]),
     ],
     dependencies: [
         .package(
-            url: "https://github.com/swift-primitives/swift-equation-primitives.git",
+            url: "https://github.com/swift-atoms/swift-hash.git",
             branch: "main"
         ),
         .package(
-            url: "https://github.com/swift-primitives/swift-hash-primitives.git",
-            branch: "main"
-        ),
-        .package(
-            url: "https://github.com/swift-primitives/swift-comparison-primitives.git",
+            url: "https://github.com/swift-atoms/swift-comparison.git",
             branch: "main"
         ),
     ],
     targets: [
-        .target(name: "Sector Primitive", dependencies: []),
+        .target(name: "Sector", dependencies: []),
         .target(
-            name: "Sector Equation Primitives",
+            name: "Sector Hash",
             dependencies: [
-                "Sector Primitive",
-                .product(name: "Equation Primitives", package: "swift-equation-primitives"),
+                .target(name: "Sector"),
+                .product(name: "Hash Protocol", package: "swift-hash"),
             ]
         ),
         .target(
-            name: "Sector Hash Primitives",
+            name: "Sector Comparison",
             dependencies: [
-                "Sector Primitive",
-                .product(name: "Hash Primitives", package: "swift-hash-primitives"),
+                .target(name: "Sector"),
+                .product(name: "Comparison Protocol", package: "swift-comparison"),
             ]
-        ),
-        .target(
-            name: "Sector Comparison Primitives",
-            dependencies: [
-                "Sector Primitive",
-                .product(name: "Comparison Primitives", package: "swift-comparison-primitives"),
-            ]
-        ),
-        .target(
-            name: "Sector Primitives",
-            dependencies: [
-                "Sector Primitive", "Sector Equation Primitives", "Sector Hash Primitives",
-                "Sector Comparison Primitives",
-            ]
-        ),
-        .target(
-            name: "Sector Primitives Test Support",
-            dependencies: ["Sector Primitives"],
-            path: "Tests/Support"
         ),
         .testTarget(
-            name: "Sector Primitives Tests",
-            dependencies: ["Sector Primitives", "Sector Primitives Test Support"]
+            name: "Sector Tests",
+            dependencies: [.target(name: "Sector")]
+        ),
+        .testTarget(
+            name: "Sector Hash Tests",
+            dependencies: [.target(name: "Sector Hash")]
+        ),
+        .testTarget(
+            name: "Sector Comparison Tests",
+            dependencies: [.target(name: "Sector Comparison")]
         ),
     ],
     swiftLanguageModes: [.v6]

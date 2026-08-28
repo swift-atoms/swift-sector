@@ -1,4 +1,4 @@
-# Sector Primitives
+# Sector
 
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
@@ -11,7 +11,8 @@ Sign-orthant subdivisions of space for Swift — `Sector.Quadrant` (the four qua
 `Sector` is a vocabulary for "which signed region of space": the four plane quadrants in standard mathematical numbering, and the eight octants of 3-space named by their sign triple. The cases carry the geometry — no coordinates, no arithmetic — so the same value travels unchanged through every layer that reasons about orientation.
 
 ```swift
-import Sector_Primitives
+import Sector_Comparison
+import Sector_Hash
 
 // The plane's four quadrants, in standard counter-clockwise numbering.
 Sector.Quadrant.I.opposite          // .III  (diagonally opposite)
@@ -24,7 +25,7 @@ Sector.Octant.allCases.count        // 8
 Set(Sector.Octant.allCases).count   // 8     (Hashable)
 ```
 
-A plane quadrant is a *region* of space — deliberately distinct from `Boundary.Corner`, a box vertex, even though both ride the `Orthant<2>` carrier. The lossless carrier projections (`.orthant`, `Quadrant.cyclic` over `Cyclic.Group.Static<4>`) live in the per-carrier bridge packages `swift-sector-orthant-primitives` and `swift-sector-cyclic-primitives`.
+A plane quadrant is a *region* of space — deliberately distinct from `Boundary.Corner`, a box vertex, even though both ride the `Orthant<2>` carrier. The lossless carrier projections (`.orthant`, `Quadrant.cyclic` over `Cyclic.Group.Static<4>`) live in the per-carrier bridge packages `swift-sector-orthant` and `swift-sector-cyclic`.
 
 Both enums are `CaseIterable`, ordered (`<` by rank), `Hashable`, and `Codable` (outside Embedded).
 
@@ -34,7 +35,7 @@ Both enums are `CaseIterable`, ordered (`<` by rank), `Hashable`, and `Codable` 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-primitives/swift-sector-primitives.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-sector.git", branch: "main")
 ]
 ```
 
@@ -42,7 +43,8 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Sector Primitives", package: "swift-sector-primitives"),
+        .product(name: "Sector Hash", package: "swift-sector"),
+        .product(name: "Sector Comparison", package: "swift-sector"),
     ]
 )
 ```
@@ -53,16 +55,13 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Five library products. The root depends on nothing; the protocol-conformance targets each pair the root with one primitives protocol package; the umbrella re-exports them all.
+Three library products. The root depends on nothing; each protocol-conformance target pairs the root with its corresponding protocol package.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Sector Primitive` | `Sources/Sector Primitive/` | The `Sector` namespace: `Sector.Quadrant` and `Sector.Octant` with `opposite`, rank ordering, hashing, and `Codable`. |
-| `Sector Equation Primitives` | `Sources/Sector Equation Primitives/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Equation.Protocol`. |
-| `Sector Hash Primitives` | `Sources/Sector Hash Primitives/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Hash.Protocol`. |
-| `Sector Comparison Primitives` | `Sources/Sector Comparison Primitives/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Comparison.Protocol`. |
-| `Sector Primitives` | `Sources/Sector Primitives/` | Umbrella re-exporting the root plus all three conformance targets. |
-| `Sector Primitives Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
+| `Sector` | `Sources/Sector/` | The `Sector` namespace: `Sector.Quadrant` and `Sector.Octant` with `opposite`, rank operators, hashing implementation, and `Codable`. |
+| `Sector Hash` | `Sources/Sector Hash/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Hash.Protocol`. |
+| `Sector Comparison` | `Sources/Sector Comparison/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Comparison.Protocol`. |
 
 Foundation-free.
 
