@@ -11,7 +11,8 @@ Sign-orthant subdivisions of space for Swift — `Sector.Quadrant` (the four qua
 `Sector` is a vocabulary for "which signed region of space": the four plane quadrants in standard mathematical numbering, and the eight octants of 3-space named by their sign triple. The cases carry the geometry — no coordinates, no arithmetic — so the same value travels unchanged through every layer that reasons about orientation.
 
 ```swift
-import Sector
+import Sector_Comparison
+import Sector_Hash
 
 // The plane's four quadrants, in standard counter-clockwise numbering.
 Sector.Quadrant.I.opposite          // .III  (diagonally opposite)
@@ -34,7 +35,7 @@ Both enums are `CaseIterable`, ordered (`<` by rank), `Hashable`, and `Codable` 
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/swift-molecules/swift-sector.git", branch: "main")
+    .package(url: "https://github.com/swift-atoms/swift-sector.git", branch: "main")
 ]
 ```
 
@@ -42,7 +43,8 @@ dependencies: [
 .target(
     name: "App",
     dependencies: [
-        .product(name: "Sector", package: "swift-sector"),
+        .product(name: "Sector Hash", package: "swift-sector"),
+        .product(name: "Sector Comparison", package: "swift-sector"),
     ]
 )
 ```
@@ -53,16 +55,13 @@ Requires Swift 6.3.1 and macOS 26 / iOS 26 / tvOS 26 / watchOS 26 / visionOS 26 
 
 ## Architecture
 
-Five library products. The root depends on nothing; the protocol-conformance targets each pair the root with one primitives protocol package; the umbrella re-exports them all.
+Three library products. The root depends on nothing; each protocol-conformance target pairs the root with its corresponding protocol package.
 
 | Product | Target | Purpose |
 |---------|--------|---------|
-| `Sector Primitive` | `Sources/Sector Primitive/` | The `Sector` namespace: `Sector.Quadrant` and `Sector.Octant` with `opposite`, rank ordering, hashing, and `Codable`. |
-| `Sector Equation` | `Sources/Sector Equation/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Equation.Protocol`. |
+| `Sector` | `Sources/Sector/` | The `Sector` namespace: `Sector.Quadrant` and `Sector.Octant` with `opposite`, rank operators, hashing implementation, and `Codable`. |
 | `Sector Hash` | `Sources/Sector Hash/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Hash.Protocol`. |
 | `Sector Comparison` | `Sources/Sector Comparison/` | Conforms `Sector.Quadrant` / `Sector.Octant` to `Comparison.Protocol`. |
-| `Sector` | `Sources/Sector/` | Umbrella re-exporting the root plus all three conformance targets. |
-| `Sector Test Support` | `Tests/Support/` | Re-exports the umbrella for test consumers. |
 
 Foundation-free.
 

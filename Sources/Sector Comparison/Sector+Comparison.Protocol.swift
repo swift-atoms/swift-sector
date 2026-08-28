@@ -1,5 +1,5 @@
-public import Comparison
-public import Sector_Primitive
+public import Comparison_Protocol
+public import Sector
 
-extension Sector.Quadrant: Comparison.`Protocol` {}
-extension Sector.Octant: Comparison.`Protocol` {}
+extension Sector::Sector.Quadrant: Comparison::Comparison.`Protocol` {}
+extension Sector::Sector.Octant: Comparison::Comparison.`Protocol` {}
