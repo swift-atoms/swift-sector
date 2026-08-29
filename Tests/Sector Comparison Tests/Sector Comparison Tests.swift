@@ -1,3 +1,4 @@
+import Sector
 import Sector_Comparison
 import Testing
 
