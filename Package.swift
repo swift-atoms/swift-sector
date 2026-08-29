@@ -47,11 +47,17 @@ let package = Package(
         ),
         .testTarget(
             name: "Sector Hash Tests",
-            dependencies: [.target(name: "Sector Hash")]
+            dependencies: [
+                .target(name: "Sector"),
+                .target(name: "Sector Hash"),
+            ]
         ),
         .testTarget(
             name: "Sector Comparison Tests",
-            dependencies: [.target(name: "Sector Comparison")]
+            dependencies: [
+                .target(name: "Sector"),
+                .target(name: "Sector Comparison"),
+            ]
         ),
     ],
     swiftLanguageModes: [.v6]
