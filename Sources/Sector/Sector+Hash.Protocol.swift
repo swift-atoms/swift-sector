@@ -1,5 +1,4 @@
-public import Hash_Protocol
-public import Sector
+public import Hash
 
 extension Sector::Sector.Quadrant: Hash::Hash.`Protocol` {}
 extension Sector::Sector.Octant: Hash::Hash.`Protocol` {}

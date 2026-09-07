@@ -12,8 +12,9 @@ let package = Package(
     ],
     products: [
         .library(name: "Sector", targets: ["Sector"]),
-        .library(name: "Sector Hash", targets: ["Sector Hash"]),
-        .library(name: "Sector Comparison", targets: ["Sector Comparison"]),
+        .library(name: "Sector Standard Library Integration", targets: ["Sector Standard Library Integration"]),
+        .library(name: "Sector Foundation Library Integration", targets: ["Sector Foundation Library Integration"]),
+        .library(name: "Sector Test Support", targets: ["Sector Test Support"]),
     ],
     dependencies: [
         .package(
@@ -26,45 +27,52 @@ let package = Package(
         ),
     ],
     targets: [
-        .target(name: "Sector", dependencies: []),
         .target(
-            name: "Sector Hash",
+            name: "Sector",
             dependencies: [
-                .target(name: "Sector"),
-                .product(name: "Hash Protocol", package: "swift-hash"),
-            ]
+                .product(name: "Hash", package: "swift-hash"),
+                .product(name: "Comparison", package: "swift-comparison"),
+            ],
+            path: "Sources/Sector"
         ),
         .target(
-            name: "Sector Comparison",
+            name: "Sector Standard Library Integration",
             dependencies: [
                 .target(name: "Sector"),
-                .product(name: "Comparison Protocol", package: "swift-comparison"),
-            ]
+            ],
+            path: "Sources/Sector Standard Library Integration"
+        ),
+        .target(
+            name: "Sector Foundation Library Integration",
+            dependencies: [
+                .target(name: "Sector"),
+                .target(name: "Sector Standard Library Integration"),
+            ],
+            path: "Sources/Sector Foundation Library Integration"
+        ),
+        .target(
+            name: "Sector Test Support",
+            dependencies: [
+                .target(name: "Sector"),
+            ],
+            path: "Tests/Support"
         ),
         .testTarget(
             name: "Sector Tests",
-            dependencies: [.target(name: "Sector")]
-        ),
-        .testTarget(
-            name: "Sector Hash Tests",
             dependencies: [
                 .target(name: "Sector"),
-                .target(name: "Sector Hash"),
-            ]
-        ),
-        .testTarget(
-            name: "Sector Comparison Tests",
-            dependencies: [
-                .target(name: "Sector"),
-                .target(name: "Sector Comparison"),
-            ]
+                .target(name: "Sector Test Support"),
+                .target(name: "Sector Standard Library Integration"),
+                .target(name: "Sector Foundation Library Integration"),
+            ],
+            path: "Tests/Sector Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    let ecosystem: [SwiftSetting] = [
+for target in package.targets {
+    target.swiftSettings = [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
         .enableUpcomingFeature("InternalImportsByDefault"),
@@ -73,6 +81,4 @@ for target in package.targets where ![.system, .binary, .plugin, .macro].contain
         .enableExperimentalFeature("Lifetimes"),
         .enableUpcomingFeature("InferIsolatedConformances"),
     ]
-    let package: [SwiftSetting] = []
-    target.swiftSettings = (target.swiftSettings ?? []) + ecosystem + package
 }
