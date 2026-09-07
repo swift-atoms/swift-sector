@@ -2,7 +2,7 @@ import Sector
 import Testing
 
 @Suite
-struct `Sector Tests` {
+struct `Sector octants preserve their structure under opposition` {
     @Test
     func `opposites are involutive`() {
         for quadrant in Sector.Quadrant.allCases {
