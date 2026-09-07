@@ -12,8 +12,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Sector", targets: ["Sector"]),
-        .library(name: "Sector Standard Library Integration", targets: ["Sector Standard Library Integration"]),
-        .library(name: "Sector Foundation Library Integration", targets: ["Sector Foundation Library Integration"]),
+
+        .library(name: "Sector Foundation Integration", targets: ["Sector Foundation Integration"]),
         .library(name: "Sector Test Support", targets: ["Sector Test Support"]),
     ],
     dependencies: [
@@ -35,20 +35,13 @@ let package = Package(
             ],
             path: "Sources/Sector"
         ),
+        
         .target(
-            name: "Sector Standard Library Integration",
+            name: "Sector Foundation Integration",
             dependencies: [
                 .target(name: "Sector"),
             ],
-            path: "Sources/Sector Standard Library Integration"
-        ),
-        .target(
-            name: "Sector Foundation Library Integration",
-            dependencies: [
-                .target(name: "Sector"),
-                .target(name: "Sector Standard Library Integration"),
-            ],
-            path: "Sources/Sector Foundation Library Integration"
+            path: "Sources/Sector Foundation Integration"
         ),
         .target(
             name: "Sector Test Support",
@@ -62,8 +55,7 @@ let package = Package(
             dependencies: [
                 .target(name: "Sector"),
                 .target(name: "Sector Test Support"),
-                .target(name: "Sector Standard Library Integration"),
-                .target(name: "Sector Foundation Library Integration"),
+                .target(name: "Sector Foundation Integration"),
             ],
             path: "Tests/Sector Tests"
         ),

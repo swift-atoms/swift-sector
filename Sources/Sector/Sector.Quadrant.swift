@@ -60,5 +60,5 @@ extension Sector.Quadrant {
 }
 
 #if !hasFeature(Embedded)
-    extension Sector.Quadrant: Codable {}
+extension Sector.Quadrant: Swift.Codable {}
 #endif

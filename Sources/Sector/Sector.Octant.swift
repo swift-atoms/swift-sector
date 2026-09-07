@@ -76,5 +76,5 @@ extension Sector.Octant {
 }
 
 #if !hasFeature(Embedded)
-    extension Sector.Octant: Codable {}
+extension Sector.Octant: Swift.Codable {}
 #endif
