@@ -17,6 +17,9 @@ let package = Package(
         .library(name: "Sector Test Support", targets: ["Sector Test Support"]),
     ],
     dependencies: [
+
+        .package(url: "https://github.com/swift-atoms/swift-equation.git", branch: "main"),
+
         .package(
             url: "https://github.com/swift-atoms/swift-hash.git",
             branch: "main"
@@ -58,6 +61,33 @@ let package = Package(
                 .target(name: "Sector Foundation Integration"),
             ],
             path: "Tests/Sector Tests"
+        ),
+        .testTarget(
+            name: "Consolidated Sector Comparison Tests",
+            dependencies: [
+
+                .target(name: "Sector"),
+                .product(name: "Comparison", package: "swift-comparison"),
+            ],
+            path: "Tests/Consolidated swift-sector-comparison"
+        ),
+        .testTarget(
+            name: "Consolidated Sector Equation Tests",
+            dependencies: [
+
+                .target(name: "Sector"),
+                .product(name: "Equation", package: "swift-equation"),
+            ],
+            path: "Tests/Consolidated swift-sector-equation"
+        ),
+        .testTarget(
+            name: "Consolidated Sector Hash Tests",
+            dependencies: [
+
+                .target(name: "Sector"),
+                .product(name: "Hash", package: "swift-hash"),
+            ],
+            path: "Tests/Consolidated swift-sector-hash"
         ),
     ],
     swiftLanguageModes: [.v6]
