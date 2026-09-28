@@ -16,14 +16,33 @@ let package = Package(
         .library(name: "Sector Foundation Integration", targets: ["Sector Foundation Integration"]),
         .library(name: "Sector Test Support", targets: ["Sector Test Support"]),
     ],
-    dependencies: [],
+    traits: [
+        .trait(name: "Cyclic", description: "Cyclic integration"),
+        .trait(name: "Orthant", description: "Orthant integration"),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/swift-atoms/swift-ordinal.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-cyclic.git", branch: "main"),
+        .package(url: "https://github.com/swift-atoms/swift-orthant.git", branch: "main"),
+
+
+    ],
     targets: [
+        .testTarget(name: "Sector Cyclic Tests", dependencies: [
+                .target(name: "Sector"),
+                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"]))
+            ], path: "Tests/Sector Cyclic Tests"),
         .target(
             name: "Sector",
-            dependencies: [],
+            dependencies: [
+                .product(name: "Ordinal", package: "swift-ordinal", condition: .when(traits: ["Cyclic"])),
+                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"])),
+                .product(name: "Orthant", package: "swift-orthant", condition: .when(traits: ["Orthant"])),
+
+            ],
             path: "Sources/Sector"
         ),
-        
+
         .target(
             name: "Sector Foundation Integration",
             dependencies: [
@@ -46,6 +65,14 @@ let package = Package(
                 .target(name: "Sector Foundation Integration"),
             ],
             path: "Tests/Sector Tests"
+        ),
+        .testTarget(
+            name: "Sector Orthant Tests",
+            dependencies: [
+                .target(name: "Sector"),
+                .product(name: "Orthant", package: "swift-orthant", condition: .when(traits: ["Orthant"])),
+            ],
+            path: "Tests/Sector Orthant Tests"
         ),
     ],
     swiftLanguageModes: [.v6]
