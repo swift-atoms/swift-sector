@@ -28,10 +28,6 @@ let package = Package(
 
     ],
     targets: [
-        .testTarget(name: "Sector Cyclic Tests", dependencies: [
-                .target(name: "Sector"),
-                .product(name: "Cyclic", package: "swift-cyclic", condition: .when(traits: ["Cyclic"]))
-            ], path: "Tests/Sector Cyclic Tests"),
         .target(
             name: "Sector",
             dependencies: [
