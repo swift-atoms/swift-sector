@@ -58,7 +58,6 @@ let package = Package(
             dependencies: [
                 .target(name: "Sector"),
                 .target(name: "Sector Test Support"),
-                .target(name: "Sector Foundation Integration"),
             ],
             path: "Tests/Sector Tests"
         ),
@@ -74,7 +73,7 @@ let package = Package(
     swiftLanguageModes: [.v6]
 )
 
-for target in package.targets where ![.system, .binary, .plugin].contains(target.type) {
+for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
     target.swiftSettings = (target.swiftSettings ?? []) + [
         .strictMemorySafety(),
         .enableUpcomingFeature("ExistentialAny"),
