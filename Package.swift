@@ -25,7 +25,6 @@ let package = Package(
         .package(url: "https://github.com/swift-atoms/swift-cyclic.git", branch: "main"),
         .package(url: "https://github.com/swift-atoms/swift-orthant.git", branch: "main"),
 
-
     ],
     targets: [
         .target(
@@ -42,14 +41,14 @@ let package = Package(
         .target(
             name: "Sector Foundation Integration",
             dependencies: [
-                .target(name: "Sector"),
+                .target(name: "Sector")
             ],
             path: "Sources/Sector Foundation Integration"
         ),
         .target(
             name: "Sector Test Support",
             dependencies: [
-                .target(name: "Sector"),
+                .target(name: "Sector")
             ],
             path: "Tests/Support"
         ),
@@ -74,14 +73,15 @@ let package = Package(
 )
 
 for target in package.targets where ![.system, .binary, .plugin, .macro].contains(target.type) {
-    target.swiftSettings = (target.swiftSettings ?? []) + [
-        .strictMemorySafety(),
-        .enableUpcomingFeature("ExistentialAny"),
-        .enableUpcomingFeature("InternalImportsByDefault"),
-        .enableUpcomingFeature("MemberImportVisibility"),
-        .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
-        .enableUpcomingFeature("InferIsolatedConformances"),
-        .enableExperimentalFeature("Lifetimes"),
-        .treatAllWarnings(as: .error),
-    ]
+    target.swiftSettings =
+        (target.swiftSettings ?? []) + [
+            .strictMemorySafety(),
+            .enableUpcomingFeature("ExistentialAny"),
+            .enableUpcomingFeature("InternalImportsByDefault"),
+            .enableUpcomingFeature("MemberImportVisibility"),
+            .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+            .enableUpcomingFeature("InferIsolatedConformances"),
+            .enableExperimentalFeature("Lifetimes"),
+            .treatAllWarnings(as: .error),
+        ]
 }

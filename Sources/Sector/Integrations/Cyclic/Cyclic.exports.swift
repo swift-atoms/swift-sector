@@ -1,3 +1,3 @@
 #if Cyclic
-@_exported public import Cyclic
+    @_exported public import Cyclic
 #endif
