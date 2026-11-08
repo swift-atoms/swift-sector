@@ -1,3 +1,3 @@
 #if Cyclic
-    public import Cyclic
+    import Cyclic
 #endif
